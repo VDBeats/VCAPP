@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 
 
 
@@ -18,7 +20,7 @@ class Ui_MainWindow(object):
         payload_size = struct.calcsize("Q")
         while True:
                 while len(data) < payload_size:
-                        packet = client_socket.recv(4*1024) # 4K
+                        packet = client_socket.recv(4096) # 4KB data
                         if not packet: break
                         data+=packet
                 packed_msg_size = data[:payload_size]
@@ -26,7 +28,7 @@ class Ui_MainWindow(object):
                 msg_size = struct.unpack("Q",packed_msg_size)[0]
 	
                 while len(data) < msg_size:
-                        data += client_socket.recv(4*1024)
+                        data += client_socket.recv(4096)
                 frame_data = data[:msg_size]
                 data  = data[msg_size:]
                 frame = pickle.loads(frame_data)
@@ -54,11 +56,11 @@ class Ui_MainWindow(object):
         self.label.setGeometry(QtCore.QRect(90, 60, 161, 20))
         self.label.setObjectName("label")
         self.ipname = QtWidgets.QLabel(self.centralwidget)
-        self.ipname.setGeometry(QtCore.QRect(350, 170, 55, 16))
+        self.ipname.setGeometry(QtCore.QRect(350, 170, 100, 16))
         self.ipname.setText("")
         self.ipname.setObjectName("status")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(214, 170, 101, 20))
+        self.label_3.setGeometry(QtCore.QRect(210, 167, 150, 20))
         self.label_3.setObjectName("label_3")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -76,7 +78,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.pushButton.setText(_translate("MainWindow", "connect to server"))
+        self.pushButton.setText(_translate("MainWindow", "Connect to server"))
         self.label.setText(_translate("MainWindow", "IP address of host :"))
         self.label_3.setText(_translate("MainWindow", "Connection status :"))
    
